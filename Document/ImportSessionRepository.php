@@ -2,7 +2,14 @@
 
 namespace KTD\ImporterBundle\Document;
 
-abstract class ImportSessionRepository
+use Doctrine\ODM\MongoDB\DocumentRepository;
+use KTD\ImporterBundle\Model\AbstractImportSession;
+
+abstract class ImportSessionRepository extends DocumentRepository
 {
-    abstract public function getLastUnfinished();
+    /**
+     * @param string $provider
+     * @return AbstractImportSession|null
+     */
+    abstract public function getLastUnfinished($provider);
 }

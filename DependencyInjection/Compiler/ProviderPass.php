@@ -24,6 +24,10 @@ class ProviderPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('importer.provider.phase') as $id => $tags) {
             foreach ($tags as $tag) {
                 if (array_key_exists('provider', $tag)) {
+                    if (array_key_exists('priority', $tag)) {
+                        $definition = $container->getDefinition($id);
+                        $definition->addMethodCall('setPriority', array($tag['priority']));
+                    }
                     $phase = new Reference($id);
                     $providerManager->addMethodCall('addPhase', array($tag['provider'], $phase));
                 }

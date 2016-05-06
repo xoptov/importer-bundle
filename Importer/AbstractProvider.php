@@ -1,33 +1,38 @@
 <?php
 
-namespace KTD\ImporterBundle\Importer\Provider;
+namespace KTD\ImporterBundle\Importer;
 
+use Doctrine\ODM\MongoDB\DocumentManager;
 use KTD\ImporterBundle\Document\ImportSessionRepository;
 use KTD\ImporterBundle\Importer\Phase\PhaseInterface;
 use KTD\ImporterBundle\Importer\Phase\PhasesStack;
 use KTD\ImporterBundle\Model\AbstractImportSession;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {
     /** @var PhasesStack */
     protected $phasesStack;
 
-    /** @var ManagerRegistry */
-    protected $managerRegistry;
+    /** @var DocumentManager */
+    protected $documentManager;
 
     /** @var string */
     protected $sessionClassName;
+
+    /** @var LoggerInterface */
+    protected $logger;
     
     /**
      * AbstractProvider constructor.
      */
-    public function  __construct(ManagerRegistry $managerRegistry, $sessionClassName)
+    public function  __construct(DocumentManager $documentManager, $sessionClassName, LoggerInterface $logger)
     {
         $this->phasesStack = new PhasesStack();
         // Dependencies
-        $this->managerRegistry = $managerRegistry;
+        $this->documentManager = $documentManager;
         $this->sessionClassName = $sessionClassName;
+        $this->logger = $logger;
     }
 
     /**
@@ -44,9 +49,9 @@ abstract class AbstractProvider implements ProviderInterface
     protected function getUnfinishedSession()
     {
         /** @var ImportSessionRepository $repository */
-        $repository = $this->managerRegistry->getRepository($this->sessionClassName);
+        $repository = $this->documentManager->getRepository($this->sessionClassName);
         
-        return $repository->getLastUnfinished();
+        return $repository->getLastUnfinished($this->getName());
     }
     
     /**
@@ -60,7 +65,7 @@ abstract class AbstractProvider implements ProviderInterface
             ->setPhase($this->phasesStack->current()->getName())
             ->setProvider($this->getName());
 
-        $this->managerRegistry->getManager()->persist($session);
+        $this->documentManager->persist($session);
 
         return $session;
     }
@@ -68,10 +73,12 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @param AbstractImportSession $session
      */
-    protected function endSession(AbstractImportSession $session)
+    protected function doneProcessingSession(AbstractImportSession $session, $status, $startTime)
     {
-        $session->setStatus(AbstractImportSession::STATUS_PROCESSED);
-        $this->managerRegistry->getManager()->flush();
+        $session->setStatus($status)
+            ->setSpentSeconds(time() - $startTime);
+
+        $this->documentManager->flush();
     }
 
     /**
@@ -87,11 +94,21 @@ abstract class AbstractProvider implements ProviderInterface
             $this->phasesStack->rewind($session->getPhase());
         }
 
+        $startTime = time();
+
         /** @var PhaseInterface $phase */
-        foreach ($this->phasesStack->pull() as $phase) {
-            $phase->process();
+        while ($phase = $this->phasesStack->pull()) {
+            try {
+                $phase->process();
+            } catch (\Exception $e) {
+                $this->logger->error($e->getMessage());
+                $session->setPhase($phase->getName());
+                $this->doneProcessingSession($session, AbstractImportSession::STATUS_FAILED, $startTime);
+
+                return;
+            }
         }
 
-        $this->endSession($session);
+        $this->doneProcessingSession($session, AbstractImportSession::STATUS_PROCESSED, $startTime);
     }
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace KTD\ImporterBundle\Importer\Provider;
+namespace KTD\ImporterBundle\Importer;
 
 use KTD\ImporterBundle\Importer\Phase\PhaseInterface;
-use KTD\ImporterBundle\Model\AbstractImportSession;
 
 interface ProviderInterface
 {

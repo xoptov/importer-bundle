@@ -21,6 +21,11 @@ abstract class AbstractImportSession
     const STATUS_PROCESSED = 2;
     const STATUS_FAILED = 3;
 
+    public function __construct()
+    {
+        $this->status = self::STATUS_NEW;
+    }
+
     /**
      * @param int $seconds
      * @return AbstractImportSession

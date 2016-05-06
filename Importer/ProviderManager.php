@@ -3,7 +3,6 @@
 namespace KTD\ImporterBundle\Importer;
 
 use KTD\ImporterBundle\Importer\Phase\PhaseInterface;
-use KTD\ImporterBundle\Importer\Provider\ProviderInterface;
 
 class ProviderManager
 {
@@ -19,15 +18,15 @@ class ProviderManager
     public function __construct()
     {
         $this->providers = array();
+        $this->phases = array();
     }
 
     /**
-     * @param $name
      * @param ProviderInterface $provider
      */
-    public function addProvider($name, ProviderInterface $provider)
+    public function addProvider(ProviderInterface $provider)
     {
-        $this->providers[$name] = $provider;
+        $this->providers[] = $provider;
     }
 
     /**
@@ -49,19 +48,28 @@ class ProviderManager
      */
     public function getProvider($name)
     {
-        if (isset($this->providers[$name]) && $this->providers[$name] instanceof ProviderInterface) {
-            /** @var ProviderInterface $provider */
-            $provider = $this->providers[$name];
-
-            if (array_key_exists($name, $this->phases)) {
-                foreach ($this->phases[$name] as $phase) {
-                    $provider->addPhase($phase);
+        if (count($this->providers)) {
+            foreach ($this->providers as $provider) {
+                if ($provider->getName() === $name) {
+                    $this->preparePhases($provider);
+                    return $provider;
                 }
             }
-
-            return $provider;
         }
 
         return null;
+    }
+
+    /**
+     * @param ProviderInterface $provider
+     */
+    protected function preparePhases(ProviderInterface $provider)
+    {
+        $name = $provider->getName();
+        if (array_key_exists($name, $this->phases)) {
+            foreach ($this->phases[$name] as $phase) {
+                $provider->addPhase($phase);
+            }
+        }
     }
 }
