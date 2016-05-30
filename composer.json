@@ -9,6 +9,9 @@
             "email": "xoptov@mail.ru"
         }
     ],
+    "autoload": {
+        "psr-0": { "Xoptov\\ImporterBundle": "" }
+    },
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.3|~3.0",
