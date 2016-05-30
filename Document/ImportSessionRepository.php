@@ -1,9 +1,9 @@
 <?php
 
-namespace KTD\ImporterBundle\Document;
+namespace Xoptov\ImporterBundle\Document;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use KTD\ImporterBundle\Model\AbstractImportSession;
+use Xoptov\ImporterBundle\Model\AbstractImportSession;
 
 abstract class ImportSessionRepository extends DocumentRepository
 {

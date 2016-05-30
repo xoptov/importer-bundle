@@ -1,6 +1,6 @@
 <?php
 
-namespace KTD\ImporterBundle\Importer\Phase;
+namespace Xoptov\ImporterBundle\Importer\Phase;
 
 class PhasesStack
 {

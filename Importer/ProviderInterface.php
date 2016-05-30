@@ -1,8 +1,8 @@
 <?php
 
-namespace KTD\ImporterBundle\Importer;
+namespace Xoptov\ImporterBundle\Importer;
 
-use KTD\ImporterBundle\Importer\Phase\PhaseInterface;
+use Xoptov\ImporterBundle\Importer\Phase\PhaseInterface;
 
 interface ProviderInterface
 {

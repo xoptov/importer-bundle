@@ -1,6 +1,6 @@
 <?php
 
-namespace KTD\ImporterBundle\Model;
+namespace Xoptov\ImporterBundle\Model;
 
 interface ProductInterface
 {

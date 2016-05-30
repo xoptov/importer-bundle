@@ -1,12 +1,12 @@
 <?php
 
-namespace KTD\ImporterBundle\Importer;
+namespace Xoptov\ImporterBundle\Importer;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use KTD\ImporterBundle\Document\ImportSessionRepository;
-use KTD\ImporterBundle\Importer\Phase\PhaseInterface;
-use KTD\ImporterBundle\Importer\Phase\PhasesStack;
-use KTD\ImporterBundle\Model\AbstractImportSession;
+use Xoptov\ImporterBundle\Document\ImportSessionRepository;
+use Xoptov\ImporterBundle\Importer\Phase\PhaseInterface;
+use Xoptov\ImporterBundle\Importer\Phase\PhasesStack;
+use Xoptov\ImporterBundle\Model\AbstractImportSession;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractProvider implements ProviderInterface

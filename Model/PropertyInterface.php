@@ -1,8 +1,8 @@
 <?php
 
-namespace KTD\ImporterBundle\Model;
+namespace Xoptov\ImporterBundle\Model;
 
-Interface PropertyInterface 
+interface PropertyInterface
 {
 
 }

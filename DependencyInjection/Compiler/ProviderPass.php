@@ -1,6 +1,6 @@
 <?php
 
-namespace KTD\ImporterBundle\DependencyInjection\Compiler;
+namespace Xoptov\ImporterBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

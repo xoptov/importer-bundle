@@ -1,12 +1,12 @@
 <?php
 
-namespace KTD\ImporterBundle;
+namespace Xoptov\ImporterBundle;
 
 use KTD\ImporterBundle\DependencyInjection\Compiler\ProviderPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class KTDImporterBundle extends Bundle
+class XoptovImporterBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
