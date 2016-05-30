@@ -1,0 +1,17 @@
+{
+    "name": "xoptov/importer-bundle",
+    "description": "Symfony Bundle for import products from KubanTrade shop via http API",
+    "type": "bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maksim Khortov",
+            "email": "xoptov@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "~2.3|~3.0",
+        "xoptov/versioner-bundle": "dev-master"
+    }
+}
