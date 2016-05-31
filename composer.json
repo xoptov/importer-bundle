@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Xoptov\\ImporterBundle": "" }
+        "psr-4": { "Xoptov\\ImporterBundle\\": "" }
     },
     "require": {
         "php": ">=5.3.3",
