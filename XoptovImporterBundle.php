@@ -2,7 +2,7 @@
 
 namespace Xoptov\ImporterBundle;
 
-use KTD\ImporterBundle\DependencyInjection\Compiler\ProviderPass;
+use Xoptov\ImporterBundle\DependencyInjection\Compiler\ProviderPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
