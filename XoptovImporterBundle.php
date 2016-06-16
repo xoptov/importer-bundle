@@ -2,9 +2,9 @@
 
 namespace Xoptov\ImporterBundle;
 
-use Xoptov\ImporterBundle\DependencyInjection\Compiler\ProviderPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Xoptov\ImporterBundle\DependencyInjection\Compiler\ProvidersPass;
 
 class XoptovImporterBundle extends Bundle
 {
@@ -12,6 +12,6 @@ class XoptovImporterBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new ProviderPass());
+        $container->addCompilerPass(new ProvidersPass());
     }
 }
